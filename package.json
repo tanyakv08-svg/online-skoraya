@@ -1,9 +1,10 @@
 {
-  "name": "medmarshrout",
+  "name": "medmarshrut",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "set PORT=56578 && node server.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

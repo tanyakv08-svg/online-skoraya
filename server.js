@@ -1,19 +1,39 @@
-// server.js
+/// server.js
 const express = require('express');
+const path = require('path');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
 const cors = require('cors');
 
+// Настройка Express
 const app = express();
-const PORT = 3000;
-const SECRET = 'medmarshrout_secret_key_2025';
+const PORT = process.env.PORT || 0; // 0 = попросить ОС дать свободный порт
+const server = app.listen(PORT, () => {
+  const { port } = server.address();
+console.log('Server listening on http://localhost:' + port);
+
+});
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static('.'));
 
+// Раздача статических файлов (HTML, CSS, JS)
+app.use(express.static(__dirname));
+const page = (name) => (req, res) =>
+  res.sendFile(path.join(__dirname, name));
+
+app.get('/index.html',   page('index.html'));
+app.get('/patient.html', page('patient.html'));
+app.get('/admin.html',   page('admin.html'));
+app.get('/doctor.html',  page('doctor.html'));
+
+// Чтобы при открытии http://localhost:56578 загружался index.html
+app.get('/', (_req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Подключение БД
 const db = new sqlite3.Database('db.sqlite', (err) => {
   if (err) console.error('DB Error:', err);
   else console.log('DB connected');
@@ -23,7 +43,7 @@ const db = new sqlite3.Database('db.sqlite', (err) => {
 db.serialize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    login TEXT UNIQUE NOT NULL,
+    login TEXT UNIQUE NOT NULL,ы
     password TEXT NOT NULL,
     role TEXT NOT NULL
   )`);
@@ -163,6 +183,3 @@ app.get('*', (req, res) => {
 });
 
 // Запуск
-app.listen(PORT, () => {
-  console.log(`Сервер запущен: http://localhost:${PORT}`);
-});
