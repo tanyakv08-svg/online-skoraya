@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>МедМаршрут — Пациент</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-left">
+      <img src="logo.png" alt="Логотип" class="nav-logo">
+      <h1>МедМаршрут — <span id="userRole">Пациент</span></h1>
+    </div>
+    <div>
+      <button class="theme-toggle" id="themeToggle">Тёмная тема</button>
+      <button id="logoutBtn">Выйти</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section class="card">
+      <h2>Подать обращение</h2>
+      <form id="appealForm">
+        <label>ФИО *</label>
+        <input type="text" id="fio" placeholder="Иванов Иван Иванович" required>
+
+        <label>Возраст *</label>
+        <input type="number" id="age" min="1" max="120" placeholder="45" required>
+
+        <label>Город / Населённый пункт</label>
+        <input type="text" id="location" placeholder="Москва">
+
+        <label>Хронические заболевания</label>
+        <input type="text" id="chronic" placeholder="Гипертония, диабет">
+
+        <label>Симптомы *</label>
+        <textarea id="symptoms" rows="4" placeholder="Опишите подробно..." required></textarea>
+
+        <button type="submit" style="background: #3b82f6; color: white; font-weight: 600;">
+          Отправить обращение
+        </button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Мои обращения</h2>
+      <table class="table" id="appealsTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Дата и время</th>
+            <th>Симптомы</th>
+            <th>Статус</th>
+            <th>Приоритет</th>
+            <th>Тип приёма</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="6" style="text-align:center; color:#64748b;">Загрузка...</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <script src="patient.js"></script>
+</body>
+</html>

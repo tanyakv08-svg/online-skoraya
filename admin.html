@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>МедМаршрут — Админ</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-left">
+      <img src="logo.png" alt="Логотип" class="nav-logo">
+      <h1>МедМаршрут — <span id="userRole">Администратор</span></h1>
+    </div>
+    <div>
+      <button class="theme-toggle" id="themeToggle">Тёмная тема</button>
+      <button id="logoutBtn">Выйти</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- ФИЛЬТРЫ -->
+    <section class="card">
+      <h2>Фильтры</h2>
+      <div class="filters-grid">
+        <div class="filter-item">
+          <label><i class="fas fa-filter"></i> Статус</label>
+          <select id="filterStatus">
+            <option value="">Все статусы</option>
+            <option value="new">Новое</option>
+            <option value="in-progress">В работе</option>
+            <option value="done">Завершено</option>
+          </select>
+        </div>
+        <div class="filter-item">
+          <label><i class="fas fa-user-md"></i> Врач</label>
+          <select id="filterDoctor">
+            <option value="">Все врачи</option>
+          </select>
+        </div>
+        <div class="filter-item">
+          <label><i class="fas fa-exclamation-triangle"></i> Приоритет</label>
+          <select id="filterPriority">
+            <option value="">Все приоритеты</option>
+            <option value="high">Высокий</option>
+            <option value="medium">Средний</option>
+            <option value="low">Низкий</option>
+          </select>
+        </div>
+        <div class="filter-item">
+          <label><i class="fas fa-stethoscope"></i> Тип приёма</label>
+          <select id="filterType">
+            <option value="">Все типы</option>
+            <option value="online">Онлайн</option>
+            <option value="offline">Очный</option>
+          </select>
+        </div>
+      </div>
+      <button id="applyFilters" class="btn-apply">
+        <i class="fas fa-search"></i> Применить фильтры
+      </button>
+    </section>
+
+    <!-- СПИСОК ВРАЧЕЙ -->
+    <section class="card">
+      <h2>Управление врачами</h2>
+      <div class="doctors-controls">
+        <button id="addDoctorBtn" class="btn-success">
+          <i class="fas fa-plus"></i> Добавить врача
+        </button>
+      </div>
+      <table class="table" id="doctorsTable">
+        <thead>
+          <tr>
+            <th>Врач</th>
+            <th>Специализация</th>
+            <th>Действие</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- МОДАЛ ДОБАВЛЕНИЯ ВРАЧА -->
+    <div id="doctorModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeDoctorModal()">&times;</span>
+        <h3>Добавить врача</h3>
+        <input type="text" id="newDoctorName" placeholder="ФИО врача" required>
+        <input type="text" id="newDoctorSpec" placeholder="Специализация" required>
+        <button onclick="saveDoctor()" class="btn-primary">Сохранить</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

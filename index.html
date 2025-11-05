@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>МедМаршрут — Вход</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ФОН -->
+  <div class="auth-bg"></div>
+
+  <!-- КОНТЕЙНЕР -->
+  <div class="auth-container">
+    <div class="auth-card">
+      <!-- ЛОГОТИП -->
+      <div class="auth-logo">
+        <img src="logo.png" alt="МедМаршрут" class="main-logo">
+      </div>
+
+      <!-- ЗАГОЛОВОК -->
+      <div class="auth-header">
+        <h1>МедМаршрут</h1>
+        <p>Электронная система медицинского маршрута</p>
+      </div>
+
+      <!-- ФОРМА ВХОДА -->
+      <div id="authForm" class="auth-form">
+        <h2>Вход в систему</h2>
+        <input type="text" id="login" placeholder="Логин" required>
+        <input type="password" id="password" placeholder="Пароль" required>
+        <select id="role">
+          <option value="patient">Пациент</option>
+          <option value="doctor">Врач</option>
+          <option value="admin">Администратор</option>
+        </select>
+        <button onclick="login()" class="btn-primary">
+          Войти
+        </button>
+        <p class="toggle-text">
+          Нет аккаунта? <a href="#" onclick="toggleForm()" class="toggle-link">Зарегистрироваться</a>
+        </p>
+      </div>
+
+      <!-- ФОРМА РЕГИСТРАЦИИ -->
+      <div id="regForm" class="auth-form" style="display: none;">
+        <h2>Регистрация</h2>
+        <input type="text" id="regLogin" placeholder="Придумайте логин" required>
+        <input type="password" id="regPassword" placeholder="Придумайте пароль" required>
+        <select id="regRole">
+          <option value="patient">Пациент</option>
+          <option value="doctor">Врач</option>
+          <option value="admin">Администратор</option>
+        </select>
+        <button onclick="register()" class="btn-success">
+          Создать аккаунт
+        </button>
+        <p class="toggle-text">
+          Уже есть аккаунт? <a href="#" onclick="toggleForm()" class="toggle-link">Войти</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+</body>
+</html>
