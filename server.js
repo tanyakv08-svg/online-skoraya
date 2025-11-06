@@ -17,7 +17,47 @@ console.log('Server listening on http://localhost:' + port);
 
 app.use(cors());
 app.use(express.json());
+// --- Автосоздание пользователей при первом запуске ---
+const bcrypt = require('bcrypt');
 
+app.get('/api/seed', async (req, res) => {
+  if (!process.env.SEED_KEY || req.query.key !== process.env.SEED_KEY) {
+    return res.status(403).json({ error: 'forbidden' });
+  }
+
+  db.serialize(() => {
+    db.run(`CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT UNIQUE NOT NULL,
+      password_hash TEXT NOT NULL,
+      role TEXT NOT NULL
+    )`);
+
+    db.run(`CREATE TABLE IF NOT EXISTS appeals (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      fio TEXT, age INTEGER, location TEXT, chronic TEXT, symptoms TEXT,
+      priority TEXT, type TEXT, date TEXT, status TEXT DEFAULT 'new'
+    )`);
+  });
+
+  const upsertUser = (username, password, role) => new Promise(async (resolve) => {
+    db.get('SELECT id FROM users WHERE username=?', [username], async (err, row) => {
+      if (err) return resolve({ user: username, created: false, error: String(err) });
+      if (row) return resolve({ user: username, created: false, note: 'exists' });
+      const hash = await bcrypt.hash(password, 10);
+      db.run('INSERT INTO users (username, password_hash, role) VALUES (?,?,?)',
+        [username, hash, role],
+        (e) => resolve({ user: username, created: !e, error: e ? String(e) : null })
+      );
+    });
+  });
+
+  const results = [];
+  results.push(await upsertUser('admin', 'admin123', 'admin'));
+  results.push(await upsertUser('tanya', '123456', 'patient'));
+
+  res.json({ ok: true, results });
+});
 // Раздача статических файлов (HTML, CSS, JS)
 app.use(express.static(__dirname));
 const page = (name) => (req, res) =>
